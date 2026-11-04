@@ -37,9 +37,13 @@ the GitHub connection).
 4. Base branch: `^main$`. Comment control: **Not required**.
 5. Configuration: **Cloud Build configuration file**, location **Repository**,
    file `cloudbuild.yaml`.
-6. Service account: keep the default it offers. Click **Create**.
-7. If the first build fails with a permission error about logs: **IAM & Admin → IAM**, find
-   that service account, **Edit** → add the role **Logs Writer**, save, and rerun the build.
+6. Service account: a new project usually shows **"No items to display"** here. Then, in a
+   new tab, open **IAM & Admin → Service accounts → Create service account**: name
+   `cloud-build-ci` → **Create and continue** → role **Logs Writer** → **Done**. Back in the
+   trigger tab, reopen the field (or reload the page) and choose
+   `cloud-build-ci@<project-id>.iam.gserviceaccount.com`. Click **Create**.
+7. If a build fails with a permission error about logs: **IAM & Admin → IAM**, find the
+   trigger's service account, **Edit** → add the role **Logs Writer**, save, and rerun.
 
 ## 5. Add your teammates (2 minutes)
 

@@ -1,0 +1,58 @@
+[
+  {
+    "table": "application_train",
+    "rows": 5000,
+    "cols": 122,
+    "mb_before": 8.714,
+    "mb_after": 1.559,
+    "missing_pct": 25.08
+  },
+  {
+    "table": "bureau",
+    "rows": 23680,
+    "cols": 17,
+    "mb_before": 7.066,
+    "mb_after": 1.175,
+    "missing_pct": 13.8
+  },
+  {
+    "table": "bureau_balance",
+    "rows": 231091,
+    "cols": 3,
+    "mb_before": 16.309,
+    "mb_after": 1.323,
+    "missing_pct": 0.0
+  },
+  {
+    "table": "previous_application",
+    "rows": 23009,
+    "cols": 37,
+    "mb_before": 26.186,
+    "mb_after": 2.028,
+    "missing_pct": 17.95
+  },
+  {
+    "table": "POS_CASH_balance",
+    "rows": 138350,
+    "cols": 8,
+    "mb_before": 15.732,
+    "mb_after": 2.903,
+    "missing_pct": 0.07
+  },
+  {
+    "table": "installments_payments",
+    "rows": 186311,
+    "cols": 8,
+    "mb_before": 11.372,
+    "mb_after": 5.331,
+    "missing_pct": 0.0
+  },
+  {
+    "table": "credit_card_balance",
+    "rows": 50668,
+    "cols": 23,
+    "mb_before": 11.553,
+    "mb_after": 3.769,
+    "missing_pct": 6.32
+  }
+]

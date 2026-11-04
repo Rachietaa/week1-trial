@@ -7,7 +7,7 @@ ranking metrics that look at the scores themselves.
 from __future__ import annotations
 
 import numpy as np
-from sklearn.metrics import average_precision_score, roc_auc_score
+from sklearn.metrics import average_precision_score, roc_auc_score, roc_curve
 
 ArrayLike = np.ndarray | list
 
@@ -27,42 +27,23 @@ def pr_auc(y_true: ArrayLike, y_score: ArrayLike) -> float:
     return float(average_precision_score(y_true, y_score))
 
 
-# TODO(student)
+# TODO(student)  [reference solution]
 def ks_statistic(y_true: ArrayLike, y_score: ArrayLike) -> float:
     """Kolmogorov-Smirnov (KS) statistic between the scores of the two classes.
 
-    Args:
-        y_true: 0/1 labels, where 1 means the applicant defaulted.
-        y_score: Model scores (higher means riskier), same length as ``y_true``.
-
-    Returns:
-        A float between 0 and 1. It is 1.0 when every defaulter scores above every
-        non-defaulter, and near 0 when the scores do not separate the classes at all.
-
-    Hints:
-        - KS is the largest vertical gap between the cumulative distribution of scores
-          for defaulters and the one for non-defaulters, over all possible thresholds.
-        - Sketch both cumulative curves on paper for a 4-row example before coding.
-        - A function you already know from ROC curves can give you both cumulative rates
-          at every threshold.
-        - Return a plain Python float.
+    Reference solution: at each threshold, TPR is the share of defaulters above it and
+    FPR the share of non-defaulters above it, so max(TPR - FPR) is the largest gap
+    between the two cumulative score distributions.
     """
-    raise NotImplementedError("TODO(student): compute the KS statistic")
+    fpr, tpr, _ = roc_curve(y_true, y_score)
+    return float(np.max(tpr - fpr))
 
 
-# TODO(student)
+# TODO(student)  [reference solution]
 def evaluate(y_true: ArrayLike, y_score: ArrayLike) -> dict[str, float]:
-    """Compute every validation metric we report.
-
-    Args:
-        y_true: 0/1 labels.
-        y_score: Model scores, same length as ``y_true``.
-
-    Returns:
-        ``{"roc_auc": ..., "pr_auc": ..., "ks": ...}`` with plain Python floats.
-
-    Hints:
-        - The three metric functions in this module already exist (one of them is yours).
-        - These exact key names are read by other code and by the check script.
-    """
-    raise NotImplementedError("TODO(student): return the three metrics in a dict")
+    """Compute every validation metric we report: ROC-AUC, PR-AUC, and KS."""
+    return {
+        "roc_auc": roc_auc(y_true, y_score),
+        "pr_auc": pr_auc(y_true, y_score),
+        "ks": ks_statistic(y_true, y_score),
+    }

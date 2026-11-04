@@ -1,0 +1,126 @@
+{
+  "seed": 42,
+  "n_bootstrap": 1000,
+  "n_valid": 1000,
+  "valid_defaults": 81,
+  "results": [
+    {
+      "feature_set": "application",
+      "tables": [],
+      "n_features": 121,
+      "roc_auc": 0.7097220542994935,
+      "pr_auc": 0.16930477760163976,
+      "ks": 0.35599618479560446,
+      "roc_auc_ci": [
+        0.6509649150240888,
+        0.7668737706329499
+      ],
+      "delta_roc_auc": 0.0,
+      "delta_ci": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "feature_set": "application+bureau",
+      "tables": [
+        "bureau"
+      ],
+      "n_features": 130,
+      "roc_auc": 0.7071830626418947,
+      "pr_auc": 0.16251594364479902,
+      "ks": 0.354491597146657,
+      "roc_auc_ci": [
+        0.6496876573835167,
+        0.7614718527384657
+      ],
+      "delta_roc_auc": -0.0025389916575988547,
+      "delta_ci": [
+        -0.01108548948394929,
+        0.006253572742432767
+      ]
+    },
+    {
+      "feature_set": "application+previous",
+      "tables": [
+        "previous_application"
+      ],
+      "n_features": 129,
+      "roc_auc": 0.7155791990757532,
+      "pr_auc": 0.17835342531365575,
+      "ks": 0.3603890433777992,
+      "roc_auc_ci": [
+        0.6549583880668386,
+        0.7729813774709989
+      ],
+      "delta_roc_auc": 0.0058571447762596485,
+      "delta_ci": [
+        -0.006521205772281833,
+        0.018941159837408936
+      ]
+    },
+    {
+      "feature_set": "application+bureau+previous",
+      "tables": [
+        "bureau",
+        "previous_application"
+      ],
+      "n_features": 138,
+      "roc_auc": 0.7132148470559787,
+      "pr_auc": 0.16909924640325721,
+      "ks": 0.3553244938808958,
+      "roc_auc_ci": [
+        0.6525264651746464,
+        0.7695710242757117
+      ],
+      "delta_roc_auc": 0.0034927927564851746,
+      "delta_ci": [
+        -0.011022756560893932,
+        0.017818713327241328
+      ]
+    },
+    {
+      "feature_set": "application+bureau+previous+bureau_balance",
+      "tables": [
+        "bureau",
+        "previous_application",
+        "bureau_balance"
+      ],
+      "n_features": 143,
+      "roc_auc": 0.7153911256196348,
+      "pr_auc": 0.17559031470777003,
+      "ks": 0.3672940259810046,
+      "roc_auc_ci": [
+        0.6549168620949362,
+        0.7712031135752572
+      ],
+      "delta_roc_auc": 0.005669071320141272,
+      "delta_ci": [
+        -0.010486226020752814,
+        0.02197818315474128
+      ]
+    },
+    {
+      "feature_set": "application+bureau+previous+bureau_balance+pos",
+      "tables": [
+        "bureau",
+        "previous_application",
+        "bureau_balance",
+        "POS_CASH_balance"
+      ],
+      "n_features": 149,
+      "roc_auc": 0.7210198954848938,
+      "pr_auc": 0.17544363745134228,
+      "ks": 0.3799352489958221,
+      "roc_auc_ci": [
+        0.6612179022117107,
+        0.7739874638379942
+      ],
+      "delta_roc_auc": 0.011297841185400226,
+      "delta_ci": [
+        -0.008012368703282036,
+        0.03069413590795169
+      ]
+    }
+  ]
+}

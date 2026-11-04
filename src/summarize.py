@@ -6,12 +6,13 @@ Run it with ``python run.py summary`` or ``python -m src.summarize``.
 from __future__ import annotations
 
 import argparse
+import json
 from typing import Any
 
 import pandas as pd
 
-from src.data import load_table  # noqa: F401  (you will use these in your solution)
-from src.utils import DEFAULT_CONFIG, load_config, memory_mb, reduce_memory  # noqa: F401
+from src.data import load_table
+from src.utils import DEFAULT_CONFIG, load_config, memory_mb, reduce_memory
 
 # PROVIDED
 SUMMARY_FILENAME = "table_summary.json"
@@ -40,7 +41,19 @@ def summarize_table(df: pd.DataFrame, name: str) -> dict[str, Any]:
         - A table can have zero rows. Do not divide by zero.
         - Return plain Python numbers so the result can be written as JSON.
     """
-    raise NotImplementedError("TODO(student): summarize one table")
+    rows, cols = df.shape
+    cells = rows * cols
+    # Percent of all cells that are empty; an empty table has no cells, so report 0.
+    missing_pct = 100.0 * float(df.isna().sum().sum()) / cells if cells else 0.0
+    return {
+        "table": name,
+        "rows": int(rows),
+        "cols": int(cols),
+        "mb_before": round(memory_mb(df), 3),
+        # reduce_memory returns a new, smaller copy, so df itself is not changed.
+        "mb_after": round(memory_mb(reduce_memory(df)), 3),
+        "missing_pct": round(missing_pct, 2),
+    }
 
 
 # TODO(student)
@@ -60,7 +73,12 @@ def summarize_all(config: dict[str, Any]) -> list[dict[str, Any]]:
         - The reports folder may not exist yet.
         - Load and summarize one table at a time so memory stays low.
     """
-    raise NotImplementedError("TODO(student): summarize all tables and write the report")
+    # One table at a time, so only one table is in memory at once.
+    rows = [summarize_table(load_table(name, config), name) for name in config["tables"]]
+    reports_dir = config["paths"]["reports_dir"]
+    reports_dir.mkdir(parents=True, exist_ok=True)  # may not exist on a fresh clone
+    (reports_dir / SUMMARY_FILENAME).write_text(json.dumps(rows, indent=2) + "\n")
+    return rows
 
 
 # PROVIDED

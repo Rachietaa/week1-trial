@@ -55,7 +55,28 @@ def gate_failures(
     Returns:
         The reasons, in the order above. Check every rule: do not stop at the first failure.
     """
-    raise NotImplementedError("TODO(student): one reason per broken rule")
+    reasons = []
+    auc = metrics["valid_auc"]
+    cost = metrics["cost_at_threshold"]
+
+    # 1. A floor every reasonable model clears.
+    if auc < thresholds["min_auc"]:
+        reasons.append(f"validation AUC {auc:.3f} is below the floor {thresholds['min_auc']}")
+    # 2. The model must still save money compared with approving everyone.
+    if cost > thresholds["max_cost"]:
+        reasons.append(f"expected cost {cost:.3f} per applicant is above the limit "
+                       f"{thresholds['max_cost']}")
+    # 3. No worse than the model we registered, by more than the allowed drop.
+    lowest_allowed = baseline_auc - thresholds["max_auc_drop"]
+    if auc < lowest_allowed:
+        reasons.append(f"validation AUC {auc:.3f} is more than {thresholds['max_auc_drop']} "
+                       f"below the registered model's {baseline_auc:.3f}")
+    # 4. No new, undocumented model-test failure (xfail does not count).
+    failed = metrics["model_tests"]["failed"]
+    if failed > thresholds["allow_failing_model_tests"]:
+        reasons.append(f"{failed} model test(s) fail (allowed: "
+                       f"{thresholds['allow_failing_model_tests']})")
+    return reasons
 
 
 # PROVIDED

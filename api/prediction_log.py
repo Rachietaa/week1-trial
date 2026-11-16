@@ -75,7 +75,25 @@ def build_record(request: PredictRequest, row: pd.DataFrame,
         - ``row.iloc[0].to_dict()`` is {column: value} for the one row.
         - ``getattr(request, name)`` reads a request field by its name.
     """
-    raise NotImplementedError("TODO(student): build the prediction log record")
+    overrides = {}
+    for name in OVERRIDABLE:
+        value = getattr(request, name, None)
+        if value is not None:
+            overrides[name] = value
+    features = {name: json_safe(value) for name, value in row.iloc[0].to_dict().items()}
+    return {
+        "event": EVENT,
+        "severity": "INFO",
+        "request_id": uuid.uuid4().hex,
+        "timestamp": datetime.now(UTC).isoformat(),
+        "model_version": response.model_version,
+        "SK_ID_CURR": response.SK_ID_CURR,
+        "overrides": overrides,
+        "features": features,
+        "probability": response.probability,
+        "decision": response.decision,
+        "threshold": response.threshold,
+    }
 
 
 # PROVIDED

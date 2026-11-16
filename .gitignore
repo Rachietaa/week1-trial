@@ -17,6 +17,10 @@ mlflow.db
 optuna.db
 models/
 
+# Monitoring (Week 6): Evidently's interactive reports are large; they stay on your machine.
+# The prediction logs and production batches are under data/, which is never committed.
+reports/monitoring/evidently/
+
 # Tools
 reports/*.tmp
 .venv/
